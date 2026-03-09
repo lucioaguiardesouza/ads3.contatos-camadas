@@ -1,0 +1,14 @@
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\Agenda_Fatesg.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\controllers\ContatoController.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\controllers\FormController.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\controllers\ListController.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\domains\Contato.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\enums\TipoTela.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\exceptions\BusinessException.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\exceptions\ValidationException.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\pages\Form_Cadastro.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\pages\Form_Listagem.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\repositories\ContatoRepository.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\repositories\IContatoRepository.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\services\ContatoService.java
+C:\Users\CLAYTON.MARQUES\OneDrive\Documentos\NetBeansProjects\Agenda_Fatesg\src\main\java\com\br\senai\ads3\agenda_fatesg\services\IContatoService.java
