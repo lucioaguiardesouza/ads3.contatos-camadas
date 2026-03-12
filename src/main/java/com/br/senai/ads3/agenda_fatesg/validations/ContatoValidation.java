@@ -20,7 +20,12 @@ public class ContatoValidation implements IContatoValidation {
     }
     @Override
     public void validaCampo(Contato contato) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(contato == null) {
+            //thro
+        }
+        if(contato.getNome().length() < 5){
+            
+        }
     }
 
     @Override
