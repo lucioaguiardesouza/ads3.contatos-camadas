@@ -100,7 +100,7 @@ public class ContatoRepository implements IContatoRepository {
         String nome = c.getNome() == null ? "" : c.getNome();
         String email = c.getEmail() == null ? "" : c.getEmail();
         String tel = c.getTelefone() == null ? "" : c.getTelefone();
-        return nome.concat(";").concat(email).concat(";").concat(tel).concat(";").concat(status).concat(System.lineSeparator());
+        return nome.concat(";").concat(email).concat(";").concat(tel).concat(";").concat(status);
     }
     
     private Contato toObject(String linha) {
@@ -150,19 +150,18 @@ public class ContatoRepository implements IContatoRepository {
         return false;
     }
     
-    private List<String> linhasAtivas(boolean ativos, boolean todos){
+    private List<String> linhasAtivas(final boolean ativos, final boolean todos){
         try {
             ensureStorage();
-            List<String> lines = Files.readAllLines(storagePath, StandardCharsets.UTF_8);
-            List<String> result = new ArrayList<>();
-            for (String l : lines) {
-                String[] d = l.split(";");
-                String status = d.length > 3 ? d[3] : "ativo";
-                if (("ativo".equalsIgnoreCase(status) == ativos) || todos) {
-                	result.add(l);
-	             }				
+            try (java.util.stream.Stream<String> lines = Files.lines(storagePath, StandardCharsets.UTF_8)) {
+                return lines
+                        .filter(l -> !l.isBlank())
+                        .filter(l -> {
+                            String[] d = l.split(";");
+                            String status = d.length > 3 ? d[3] : "ativo";
+                            return ("ativo".equalsIgnoreCase(status) == ativos) || todos;
+                        }).toList();
             }
-            return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }    

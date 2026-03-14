@@ -9,8 +9,8 @@ import com.br.senai.ads3.agenda_fatesg.repositories.ContatoRepository;
 import com.br.senai.ads3.agenda_fatesg.repositories.IContatoRepository;
 import com.br.senai.ads3.agenda_fatesg.validations.ContatoValidation;
 import com.br.senai.ads3.agenda_fatesg.validations.IContatoValidation;
+import com.br.senai.ads3.agenda_fatesg.exceptions.BusinessException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +21,11 @@ public class ContatoService implements IContatoService {
 
     private final IContatoRepository repository;
     private final IContatoValidation validation;
+
+    public ContatoService(IContatoRepository repository, IContatoValidation validation) {
+        this.repository = repository;
+        this.validation = validation;
+    }
 
     public ContatoService() {
         this.repository = new ContatoRepository();
@@ -51,7 +56,7 @@ public class ContatoService implements IContatoService {
         if (this.contatoExiste(contato)) {
             return this.repository.desativar(contato);
         } else {
-            throw new Exception("Este contato já existe cadastrado");
+            throw new BusinessException("Contato não encontrado para exclusão.");
         }
     }
     
@@ -65,26 +70,24 @@ public class ContatoService implements IContatoService {
     }
     
     @Override
-    public List<Contato> listarPorNome(String name) throws Exception {
+    public List<Contato> listarPorNome(final String name) throws Exception {
         List<Contato> all = this.buscarTodos();
-        List<Contato> filtered = new ArrayList<>();
-        for (Contato c : all) {
-            if (c.getNome() != null && c.getNome().toLowerCase().contains(name.toLowerCase())) {
-                filtered.add(c);
-            }
-        }
-        return filtered;
+        if (name == null || name.isBlank()) return all;
+        
+        return all.stream()
+                  .filter(c -> c.getNome() != null && c.getNome().toLowerCase().contains(name.toLowerCase()))
+                  .toList();
     }
     
     @Override
-    public Contato buscarPorNome(String name) throws Exception {
+    public Contato buscarPorNome(final String name) throws Exception {
         List<Contato> all = this.buscarTodos();
-        for (Contato c : all) {
-            if (c.getNome() != null && c.getNome().toLowerCase().contains(name.toLowerCase())) {
-                return c;
-            }
-        }
-        return null;
+        if (name == null || name.isBlank()) return null;
+        
+        return all.stream()
+                  .filter(c -> c.getNome() != null && c.getNome().toLowerCase().contains(name.toLowerCase()))
+                  .findFirst()
+                  .orElse(null);
     }
 
     @Override
@@ -114,10 +117,10 @@ public class ContatoService implements IContatoService {
 
     private void validate(Contato dto) throws Exception {
         if (dto == null) {
-            throw new Exception("Contato inválido");
+            throw new BusinessException("Contato inválido");
         }
         if (dto.getNome() == null || dto.getNome().isBlank()) {
-            throw new Exception("Nome é obrigatório");
+            throw new BusinessException("Nome é obrigatório");
         }
     }
 

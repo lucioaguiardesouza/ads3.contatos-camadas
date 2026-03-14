@@ -1,10 +1,10 @@
 package com.br.senai.ads3.agenda_fatesg.controllers;
 
 import com.br.senai.ads3.agenda_fatesg.domains.Contato;
+import com.br.senai.ads3.agenda_fatesg.dtos.ContatoCadastroDTO;
 import com.br.senai.ads3.agenda_fatesg.services.ContatoService;
 import com.br.senai.ads3.agenda_fatesg.services.IContatoService;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContatoController implements IContatoCadastroController, IContatoListaController {
@@ -15,22 +15,29 @@ public class ContatoController implements IContatoCadastroController, IContatoLi
        this.service = new ContatoService();
     }    
 
-    ContatoController(Path storage) {
+    public ContatoController(Path storage) {
         this.service = new ContatoService(storage);
     }
     
+    // Injeção de dependência explícita (D de SOLID)
+    public ContatoController(IContatoService service) {
+        this.service = service;
+    }
+    
     @Override
-    public Contato criar(Contato dto) throws Exception {
-        if(this.service.inserir(dto)){
-            return dto;
+    public Contato criar(ContatoCadastroDTO dto) throws Exception {
+        Contato contato = new Contato(dto.nome(), dto.email(), dto.telefone());
+        if(this.service.inserir(contato)){
+            return contato;
         }
         return null;
     }
 
     @Override
-    public Contato alterar(String originalName, Contato dto) throws Exception {
-        if(this.service.alterar(dto)){
-            return dto;
+    public Contato alterar(String originalName, ContatoCadastroDTO dto) throws Exception {
+        Contato contato = new Contato(dto.nome(), dto.email(), dto.telefone());
+        if(this.service.alterar(contato)){
+            return contato;
         }
         return null;
     }
@@ -55,13 +62,6 @@ public class ContatoController implements IContatoCadastroController, IContatoLi
 
     @Override
     public List<Contato> buscarPorNome(String name) throws Exception {
-        List<Contato> all = listarTodos();
-        List<Contato> filtered = new ArrayList<>();
-        for (Contato c : all) {
-            if (c.getNome() != null && c.getNome().toLowerCase().contains(name.toLowerCase())) {
-                filtered.add(c);
-            }
-        }
-        return filtered;
+        return this.service.listarPorNome(name);
     }
 }

@@ -1,6 +1,6 @@
 package com.br.senai.ads3.agenda_fatesg.pages;
 
-import com.br.senai.ads3.agenda_fatesg.controllers.ContatoController;
+import com.br.senai.ads3.agenda_fatesg.DependencyFactory;
 import com.br.senai.ads3.agenda_fatesg.domains.Contato;
 import com.br.senai.ads3.agenda_fatesg.enums.TipoTela;
 import java.awt.EventQueue;
@@ -35,11 +35,26 @@ public class Form_Listagem extends javax.swing.JFrame {
     public Form_Listagem(IContatoListaController controller) {
         this.contatoController = controller;
         initComponents();
+        
+        // Ativação do arredondamento pelo FlatLaf
+        this.jPanel1.putClientProperty("FlatLaf.style", "arc: 30");
+        this.edtFiltroNome.putClientProperty("FlatLaf.style", "arc: 10");
+        
+        // Suavizando bordas de outros componentes
+        this.btnAdicionar.putClientProperty("FlatLaf.style", "arc: 10");
+        this.btnExcluir.putClientProperty("FlatLaf.style", "arc: 10");
+        this.btnFechar.putClientProperty("FlatLaf.style", "arc: 10");
+        
+        // Arrendondando a Tabela de listagem (Usando FlatLaf UI Properties)
+        this.jScrollPane1.putClientProperty("FlatLaf.style", "arc: 10");
+        
+        this.setLocationRelativeTo(null);
         carregarDadosAsync();
+        
     }
 
     public Form_Listagem() {
-        this(new ContatoController());
+        this(DependencyFactory.getContatoListaController());
     }
 
     /**
@@ -75,9 +90,7 @@ public class Form_Listagem extends javax.swing.JFrame {
         jLabel3.setLabelFor(edtFiltroNome);
         jLabel3.setText("Buscar por nome:");
 
-        btnAdicionar.setBackground(new java.awt.Color(0, 57, 0));
         btnAdicionar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        btnAdicionar.setForeground(new java.awt.Color(255, 204, 204));
         btnAdicionar.setText("Novo contato");
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,30 +109,31 @@ public class Form_Listagem extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdicionar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdicionar)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdicionar)))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         grid.setModel(new javax.swing.table.DefaultTableModel(
@@ -130,7 +144,7 @@ public class Form_Listagem extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Nome", "Telefone", "E-mail"
+                "Nome", "E-mail", "Telefone"
             }
         ) {
             Class[] types = new Class [] {
@@ -158,9 +172,7 @@ public class Form_Listagem extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(grid);
 
-        btnFechar.setBackground(new java.awt.Color(102, 0, 0));
         btnFechar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        btnFechar.setForeground(new java.awt.Color(255, 204, 204));
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,9 +180,7 @@ public class Form_Listagem extends javax.swing.JFrame {
             }
         });
 
-        btnExcluir.setBackground(new java.awt.Color(255, 102, 102));
         btnExcluir.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        btnExcluir.setForeground(new java.awt.Color(0, 0, 102));
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,15 +202,14 @@ public class Form_Listagem extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 31, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(443, 443, 443)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 17, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141)
-                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,13 +218,13 @@ public class Form_Listagem extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
                     .addComponent(btnExcluir))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -241,7 +250,7 @@ public class Form_Listagem extends javax.swing.JFrame {
                 }
 
                 // Abre tela de cadastro em modo EDIT passando o controller
-                Form_Cadastro cadastro = new Form_Cadastro(TipoTela.EDIT, new Contato(nome, email, telefone), (com.br.senai.ads3.agenda_fatesg.controllers.IContatoCadastroController) contatoController);
+                Form_Cadastro cadastro = new Form_Cadastro(TipoTela.EDIT, new Contato(nome, email, telefone), DependencyFactory.getContatoCadastroController());
                 cadastro.setVisible(true);
                 this.dispose();
             }
@@ -249,7 +258,7 @@ public class Form_Listagem extends javax.swing.JFrame {
     }//GEN-LAST:event_gridMouseClicked
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        Form_Cadastro cadastro = new Form_Cadastro((IContatoCadastroController) contatoController);
+        Form_Cadastro cadastro = new Form_Cadastro(DependencyFactory.getContatoCadastroController());
         cadastro.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAdicionarActionPerformed
@@ -316,28 +325,8 @@ public class Form_Listagem extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_Listagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_Listagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_Listagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_Listagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        // Usa o ThemeManager para plugar Fontes Nativas Globais ANTES das GUIs subirem
+        com.br.senai.ads3.agenda_fatesg.util.ThemeManager.setupTheme();
 
         /* Create and display the form */
         EventQueue.invokeLater(() -> {
