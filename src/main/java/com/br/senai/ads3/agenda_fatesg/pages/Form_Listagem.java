@@ -4,53 +4,45 @@ import com.br.senai.ads3.agenda_fatesg.DependencyFactory;
 import com.br.senai.ads3.agenda_fatesg.domains.Contato;
 import com.br.senai.ads3.agenda_fatesg.enums.TipoTela;
 import java.awt.EventQueue;
-import java.awt.HeadlessException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JOptionPane;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import com.br.senai.ads3.agenda_fatesg.controllers.IContatoListaController;
-import com.br.senai.ads3.agenda_fatesg.controllers.IContatoCadastroController;
 
 /**
  *
  * @author CLAYTON.MARQUES
  */
-public class Form_Listagem extends javax.swing.JFrame {
+public class Form_Listagem extends BasePage {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final IContatoListaController contatoController;
+    private static final long serialVersionUID = 1L;
+    private final IContatoListaController contatoController;
 
     /**
      * Creates new form Form_Listagem
      * @param controller
      */
     public Form_Listagem(IContatoListaController controller) {
+        super("Agenda de Contatos - Listagem");
         this.contatoController = controller;
         initComponents();
         
-        // Ativação do arredondamento pelo FlatLaf
-        this.jPanel1.putClientProperty("FlatLaf.style", "arc: 30");
-        this.edtFiltroNome.putClientProperty("FlatLaf.style", "arc: 10");
+        // Ativação do arredondamento pelo FlatLaf via BasePage
+        applyArc(this.jPanel1, 30);
+        applyArc(this.edtFiltroNome, 10);
         
         // Suavizando bordas de outros componentes
-        this.btnAdicionar.putClientProperty("FlatLaf.style", "arc: 10");
-        this.btnExcluir.putClientProperty("FlatLaf.style", "arc: 10");
-        this.btnFechar.putClientProperty("FlatLaf.style", "arc: 10");
+        applyArc(this.btnAdicionar, 10);
+        applyArc(this.btnExcluir, 10);
+        applyArc(this.btnFechar, 10);
         
-        // Arrendondando a Tabela de listagem (Usando FlatLaf UI Properties)
-        this.jScrollPane1.putClientProperty("FlatLaf.style", "arc: 10");
+        // Arrendondando a Tabela de listagem via BasePage
+        applyArc(this.jScrollPane1, 10);
         
-        this.setLocationRelativeTo(null);
         carregarDadosAsync();
-        
     }
 
     public Form_Listagem() {
@@ -76,6 +68,7 @@ public class Form_Listagem extends javax.swing.JFrame {
         grid = new javax.swing.JTable();
         btnFechar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        btnWhatsApp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,30 +102,30 @@ public class Form_Listagem extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(btnAdicionar)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnAdicionar))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAdicionar)))
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(edtFiltroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdicionar)
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -188,6 +181,14 @@ public class Form_Listagem extends javax.swing.JFrame {
             }
         });
 
+        btnWhatsApp.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        btnWhatsApp.setText("WhatsApp");
+        btnWhatsApp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWhatsAppActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,17 +199,17 @@ public class Form_Listagem extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(443, 443, 443)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnWhatsApp, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(301, 301, 301)
                                 .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 17, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -223,8 +224,9 @@ public class Form_Listagem extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFechar)
-                    .addComponent(btnExcluir))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(btnExcluir)
+                    .addComponent(btnWhatsApp))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,19 +239,12 @@ public class Form_Listagem extends javax.swing.JFrame {
 
             if (linha != -1) {
                 String nome = (String) grid.getModel().getValueAt(linha, 0);
-                if (nome == null) {
-                    nome = "";
-                }
+                if (nome == null) nome = "";
                 String email = (String) grid.getModel().getValueAt(linha, 1);
-                if (email == null) {
-                    email = "";
-                }
+                if (email == null) email = "";
                 String telefone = (String) grid.getModel().getValueAt(linha, 2);
-                if (telefone == null) {
-                    telefone = "";
-                }
+                if (telefone == null) telefone = "";
 
-                // Abre tela de cadastro em modo EDIT passando o controller
                 Form_Cadastro cadastro = new Form_Cadastro(TipoTela.EDIT, new Contato(nome, email, telefone), DependencyFactory.getContatoCadastroController());
                 cadastro.setVisible(true);
                 this.dispose();
@@ -264,7 +259,6 @@ public class Form_Listagem extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-        // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnFecharActionPerformed
 
@@ -275,7 +269,11 @@ public class Form_Listagem extends javax.swing.JFrame {
         filtro.setRowFilter(RowFilter.regexFilter("(?i)" + edtFiltroNome.getText(), 0));
     }//GEN-LAST:event_edtFiltroNomeKeyReleased
 
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+    private void btnWhatsAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWhatsAppActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnWhatsAppActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                           
         int linhaVisual = grid.getSelectedRow();
         if (linhaVisual == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um contato para excluir.");
@@ -292,52 +290,35 @@ public class Form_Listagem extends javax.swing.JFrame {
             return;
         }
 
-        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
-            @Override
-            protected Boolean doInBackground() {
-                try {
-                    return contatoController.inativarPorNome(nome);
-                } catch (Exception ex) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao excluir: " + ex.getMessage()));
-                    return false;
-                }
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    Boolean ok = get();
+        // Executar I/O em background com Virtual Threads (Padrão 2026 / Java 21)
+        Thread.ofVirtual().start(() -> {
+            try {
+                boolean ok = contatoController.inativarPorNome(nome);
+                
+                SwingUtilities.invokeLater(() -> {
                     if (ok) {
                         JOptionPane.showMessageDialog(Form_Listagem.this, "Contato marcado como inativo.");
                         carregarDadosAsync(); // recarrega tabela
                     } else {
                         JOptionPane.showMessageDialog(Form_Listagem.this, "Contato não encontrado ou já inativo.");
                     }
-                } catch (HeadlessException | InterruptedException | ExecutionException ex) {
-                    JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao processar exclusão: " + ex.getMessage());
-                }
+                });
+            } catch (Exception ex) {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao excluir: " + ex.getMessage()));
             }
-        };
-        worker.execute();
-    }//GEN-LAST:event_btnExcluirActionPerformed
+        });
+    }// GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        // Usa o ThemeManager para plugar Fontes Nativas Globais ANTES das GUIs subirem
-        com.br.senai.ads3.agenda_fatesg.util.ThemeManager.setupTheme();
 
-        /* Create and display the form */
-        EventQueue.invokeLater(() -> {
-            new Form_Listagem().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnWhatsApp;
     private javax.swing.JTextField edtFiltroNome;
     private javax.swing.JTable grid;
     private javax.swing.JLabel jLabel1;
@@ -348,31 +329,19 @@ public class Form_Listagem extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void carregarDadosAsync() {
-        SwingWorker<List<Contato>, Void> worker = new SwingWorker<>() {
-            @Override
-            protected List<Contato> doInBackground() {
-                try {
-                    return contatoController.listarTodosAtivos();
-                } catch (Exception ex) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao carregar dados: " + ex.getMessage()));
-                }
-                return null;
+        // Executar carregamento em background com Virtual Threads
+        Thread.ofVirtual().start(() -> {
+            try {
+                List<Contato> list = contatoController.listarTodosAtivos();
+                SwingUtilities.invokeLater(() -> populateTable(list));
+            } catch (Exception ex) {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao carregar dados: " + ex.getMessage()));
             }
-
-            @Override
-            protected void done() {
-                try {
-                    List<Contato> list = get();
-                    populateTable(list);
-                } catch (InterruptedException | ExecutionException ex) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Listagem.this, "Erro ao carregar dados: " + ex.getMessage()));
-                }
-            }
-        };
-        worker.execute();
+        });
     }
 
     private void populateTable(List<Contato> contatos) {
+        if (contatos == null) return;
         DefaultTableModel modelo = (DefaultTableModel) grid.getModel();
         modelo.setNumRows(0);
         for (Contato c : contatos) {

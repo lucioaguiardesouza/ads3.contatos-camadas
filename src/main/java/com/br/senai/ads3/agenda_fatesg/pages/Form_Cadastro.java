@@ -22,7 +22,7 @@ import com.br.senai.ads3.agenda_fatesg.controllers.IContatoCadastroController;
  *
  * @author CLAYTON.MARQUES
  */
-public class Form_Cadastro extends javax.swing.JFrame {
+public class Form_Cadastro extends BasePage {
 
     /**
      * Creates new form Form_Main
@@ -34,6 +34,7 @@ public class Form_Cadastro extends javax.swing.JFrame {
     private final IContatoCadastroController contatoController;
 
     public Form_Cadastro(final TipoTela tipoTela, final Contato contato, final IContatoCadastroController controller) {
+        super("Agenda de Contatos - Cadastro");
         this.tipoTela = tipoTela;
         if (contato == null) {
             this.contato = new Contato("", "", "");
@@ -43,11 +44,11 @@ public class Form_Cadastro extends javax.swing.JFrame {
         this.contatoController = controller;
         initComponents();
         
-        // Ativação do arredondamento pelo FlatLaf
-        this.pnDados.putClientProperty("FlatLaf.style", "arc: 30");
-        this.edtNome.putClientProperty("FlatLaf.style", "arc: 10");
-        this.edtTelefone.putClientProperty("FlatLaf.style", "arc: 10");
-        this.edtEmail.putClientProperty("FlatLaf.style", "arc: 10");
+        // Ativação do arredondamento pelo FlatLaf via BasePage
+        applyArc(this.pnDados, 30);
+        applyArc(this.edtNome, 10);
+        applyArc(this.edtTelefone, 10);
+        applyArc(this.edtEmail, 10);
         
         // Configura uma formatação profissional com máscara para o telefone: (DD) NNNNN-NNNN
         try {
@@ -59,10 +60,9 @@ public class Form_Cadastro extends javax.swing.JFrame {
         }
         
         // Suavizando Botões e Labels com arc: 10
-        this.btnGravar.putClientProperty("FlatLaf.style", "arc: 10");
-        this.btnFechar.putClientProperty("FlatLaf.style", "arc: 10");
+        applyArc(this.btnGravar, 10);
+        applyArc(this.btnFechar, 10);
         
-        this.setLocationRelativeTo(null);
         ajustaTela();
         carregaTela();
     }
@@ -227,43 +227,30 @@ public class Form_Cadastro extends javax.swing.JFrame {
         ContatoCadastroDTO dto = new ContatoCadastroDTO(nomeNovo, telefone, email);
         String originalName = this.contato != null ? this.contato.getNome() : "";
 
-        // Executar I/O em background para não travar UI
-        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
-            @Override
-            protected Boolean doInBackground() {
-                try {
-                    if (!isEdit) {
-                        contatoController.criar(dto);
-                    } else {
-                        contatoController.alterar(originalName, dto);
-                    }
-                    return true;
-                } catch (com.br.senai.ads3.agenda_fatesg.exceptions.CoreException ex) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Cadastro.this, ex.getMessage(),
-                            ex.getTitulo(), JOptionPane.WARNING_MESSAGE));
-                } catch (Exception ex) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Cadastro.this,
-                            "Erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE));
+        // Executar I/O em background com Virtual Threads (Padrão 2026 / Java 21)
+        Thread.ofVirtual().start(() -> {
+            try {
+                if (!isEdit) {
+                    contatoController.criar(dto);
+                } else {
+                    contatoController.alterar(originalName, dto);
                 }
-                return false;
+                
+                // Sucesso: Voltar para listagem na Event Dispatch Thread
+                SwingUtilities.invokeLater(() -> {
+                    Form_Listagem list = new Form_Listagem(DependencyFactory.getContatoListaController());
+                    list.setVisible(true);
+                    dispose();
+                });
+                
+            } catch (com.br.senai.ads3.agenda_fatesg.exceptions.CoreException ex) {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Cadastro.this, ex.getMessage(),
+                        ex.getTitulo(), JOptionPane.WARNING_MESSAGE));
+            } catch (Exception ex) {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(Form_Cadastro.this,
+                        "Erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE));
             }
-
-            @Override
-            protected void done() {
-                try {
-                    boolean success = get();
-                    if (success) {
-                        // voltar para listagem
-                        Form_Listagem list = new Form_Listagem(DependencyFactory.getContatoListaController());
-                        list.setVisible(true);
-                        dispose();
-                    }
-                } catch (Exception e) {
-                    // ignorar interrupções
-                }
-            }
-        };
-        worker.execute();
+        });
     }// GEN-LAST:event_btnGravarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnFecharActionPerformed
@@ -275,15 +262,7 @@ public class Form_Cadastro extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        // Usa o ThemeManager para plugar Fontes Nativas Globais ANTES das GUIs subirem
-        com.br.senai.ads3.agenda_fatesg.util.ThemeManager.setupTheme();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Form_Cadastro().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar;

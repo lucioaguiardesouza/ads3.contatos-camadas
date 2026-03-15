@@ -6,17 +6,18 @@ package com.br.senai.ads3.agenda_fatesg.repositories;
 
 import com.br.senai.ads3.agenda_fatesg.domains.Contato;
 import java.util.List;
+import com.br.senai.ads3.agenda_fatesg.exceptions.CoreException;
 
 /**
  *
  * @author CLAYTON.MARQUES
  */
 public interface IContatoRepository {
-    boolean inserir(final Contato contato) throws Exception;
-    boolean alterar(final Contato contato) throws Exception;
-    boolean desativar(final Contato contato) throws Exception;
-    boolean reativar(final Contato contato) throws Exception;
-    boolean contatoExiste(final Contato contato) throws Exception;
-    List<Contato> buscarTodos() throws Exception;
-    List<Contato> buscarTodos(boolean ativos) throws Exception;
+    boolean inserir(final Contato contato) throws CoreException;
+    boolean alterar(final Contato contato) throws CoreException;
+    boolean desativar(final Contato contato) throws CoreException;
+    boolean reativar(final Contato contato) throws CoreException;
+    boolean contatoExiste(final Contato contato) throws CoreException;
+    List<Contato> buscarTodos() throws CoreException;
+    List<Contato> buscarTodos(boolean ativos) throws CoreException;
 }

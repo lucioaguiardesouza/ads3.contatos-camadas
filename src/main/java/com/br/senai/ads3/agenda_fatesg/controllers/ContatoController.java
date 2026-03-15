@@ -7,6 +7,8 @@ import com.br.senai.ads3.agenda_fatesg.services.IContatoService;
 import java.nio.file.Path;
 import java.util.List;
 
+import com.br.senai.ads3.agenda_fatesg.exceptions.CoreException;
+
 public class ContatoController implements IContatoCadastroController, IContatoListaController {
     
     private final IContatoService service;
@@ -25,7 +27,7 @@ public class ContatoController implements IContatoCadastroController, IContatoLi
     }
     
     @Override
-    public Contato criar(ContatoCadastroDTO dto) throws Exception {
+    public Contato criar(ContatoCadastroDTO dto) throws CoreException {
         Contato contato = new Contato(dto.nome(), dto.email(), dto.telefone());
         if(this.service.inserir(contato)){
             return contato;
@@ -34,7 +36,7 @@ public class ContatoController implements IContatoCadastroController, IContatoLi
     }
 
     @Override
-    public Contato alterar(String originalName, ContatoCadastroDTO dto) throws Exception {
+    public Contato alterar(String originalName, ContatoCadastroDTO dto) throws CoreException {
         Contato contato = new Contato(dto.nome(), dto.email(), dto.telefone());
         if(this.service.alterar(contato)){
             return contato;
@@ -43,25 +45,25 @@ public class ContatoController implements IContatoCadastroController, IContatoLi
     }
 
     @Override
-    public List<Contato> listarTodos() throws Exception  {
+    public List<Contato> listarTodos() throws CoreException  {
         return this.service.buscarTodos();
     }
     @Override
-    public List<Contato> listarTodosAtivos() throws Exception  {
+    public List<Contato> listarTodosAtivos() throws CoreException  {
         return this.service.buscarTodosAtivos();
     }
     @Override
-    public List<Contato> listaTodosInativos() throws Exception  {
+    public List<Contato> listaTodosInativos() throws CoreException  {
         return this.service.buscarTodosInativos();
     }
 
     @Override
-    public boolean inativarPorNome(String name) throws Exception {
+    public boolean inativarPorNome(String name) throws CoreException {
         return this.service.excluir(name);
     }
 
     @Override
-    public List<Contato> buscarPorNome(String name) throws Exception {
+    public List<Contato> buscarPorNome(String name) throws CoreException {
         return this.service.listarPorNome(name);
     }
 }

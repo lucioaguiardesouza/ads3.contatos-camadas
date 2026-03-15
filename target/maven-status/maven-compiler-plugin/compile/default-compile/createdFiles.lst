@@ -6,13 +6,13 @@ com/br/senai/ads3/agenda_fatesg/enums/TipoTela.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Cadastro$1.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Listagem$5.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Cadastro.class
-com/br/senai/ads3/agenda_fatesg/pages/Form_Cadastro$4.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Listagem$4.class
 com/br/senai/ads3/agenda_fatesg/controllers/IContatoCadastroController.class
 com/br/senai/ads3/agenda_fatesg/repositories/IContatoRepository.class
 com/br/senai/ads3/agenda_fatesg/repositories/ContatoRepository.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Listagem$2.class
 com/br/senai/ads3/agenda_fatesg/exceptions/ExceptionValidationCampo.class
+com/br/senai/ads3/agenda_fatesg/pages/BasePage.class
 com/br/senai/ads3/agenda_fatesg/validations/ContatoValidation.class
 com/br/senai/ads3/agenda_fatesg/validations/IContatoValidation.class
 com/br/senai/ads3/agenda_fatesg/domains/Contato.class
@@ -29,6 +29,5 @@ com/br/senai/ads3/agenda_fatesg/controllers/ContatoController.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Cadastro$2.class
 com/br/senai/ads3/agenda_fatesg/exceptions/CoreException.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Cadastro$3.class
-com/br/senai/ads3/agenda_fatesg/pages/Form_Listagem$8.class
 com/br/senai/ads3/agenda_fatesg/util/ThemeManager.class
 com/br/senai/ads3/agenda_fatesg/pages/Form_Listagem$3.class

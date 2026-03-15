@@ -14,6 +14,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.br.senai.ads3.agenda_fatesg.exceptions.CoreException;
 
 /**
  *
@@ -33,34 +34,34 @@ public class ContatoRepository implements IContatoRepository {
     
 
     @Override
-    public boolean inserir(Contato contato) {
+    public boolean inserir(Contato contato) throws CoreException {
         String linha = this.toCsvLine(contato, "ativo");
         return insereRegistro(linha);
     }
 
     @Override
-    public boolean alterar(Contato contato) {
+    public boolean alterar(Contato contato) throws CoreException {
         String linha = this.toCsvLine(contato, "ativo");
         String linhaAntiga = buscaRegistro(contato.getNome());
         return alteraRegistro(linha, linhaAntiga);
     }
 
     @Override
-    public boolean desativar(Contato contato) {
+    public boolean desativar(Contato contato) throws CoreException {
         String linha = this.toCsvLine(contato, "inativo");
         String linhaAntiga = buscaRegistro(contato.getNome());
         return alteraRegistro(linha, linhaAntiga);
     }
 
     @Override
-    public boolean reativar(Contato contato) {
+    public boolean reativar(Contato contato) throws CoreException {
         String linha = this.toCsvLine(contato, "ativo");
         String linhaAntiga = buscaRegistro(contato.getNome());
         return alteraRegistro(linha, linhaAntiga);
     }
 
     @Override
-    public boolean contatoExiste(Contato contato) {
+    public boolean contatoExiste(Contato contato) throws CoreException {
     	List<Contato> contatos = buscarTodos();
 		for (Contato c : contatos) {
 			if (c.getNome().equalsIgnoreCase(contato.getNome())) {
@@ -71,7 +72,7 @@ public class ContatoRepository implements IContatoRepository {
     }
 
     @Override
-    public List<Contato> buscarTodos() {
+    public List<Contato> buscarTodos() throws CoreException {
         List<String> linhas = linhasAtivas(true, true);
         if (linhas == null || linhas.isEmpty()) {
             return List.of(); 
@@ -83,7 +84,7 @@ public class ContatoRepository implements IContatoRepository {
     }
     
     @Override
-    public List<Contato> buscarTodos(boolean ativos) {
+    public List<Contato> buscarTodos(boolean ativos) throws CoreException {
         List<String> linhas = linhasAtivas(ativos, false);
         if (linhas == null || linhas.isEmpty()) {
             return List.of(); 

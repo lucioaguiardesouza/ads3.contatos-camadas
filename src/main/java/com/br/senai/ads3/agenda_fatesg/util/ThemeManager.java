@@ -11,7 +11,7 @@ import javax.swing.UIManager;
  * e a tipografia embutida no projeto (.jar).
  */
 public class ThemeManager {
-
+    
     public static void setupTheme() {
         try {
             // 1. Tenta carregar a fonte embarcada dentro do próprio projeto

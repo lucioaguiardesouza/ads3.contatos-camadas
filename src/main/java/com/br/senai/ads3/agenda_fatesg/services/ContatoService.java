@@ -10,6 +10,7 @@ import com.br.senai.ads3.agenda_fatesg.repositories.IContatoRepository;
 import com.br.senai.ads3.agenda_fatesg.validations.ContatoValidation;
 import com.br.senai.ads3.agenda_fatesg.validations.IContatoValidation;
 import com.br.senai.ads3.agenda_fatesg.exceptions.BusinessException;
+import com.br.senai.ads3.agenda_fatesg.exceptions.CoreException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -38,21 +39,21 @@ public class ContatoService implements IContatoService {
     }
 
     @Override
-    public boolean inserir(Contato contato) throws Exception {
+    public boolean inserir(Contato contato) throws CoreException {
         this.validation.validaCampo(contato);
         this.validation.validaRegraInserir(contato);
         return this.repository.inserir(contato);        
     }
 
     @Override
-    public boolean alterar(Contato contato) throws Exception {
+    public boolean alterar(Contato contato) throws CoreException {
         this.validation.validaCampo(contato);
         this.validation.validaRegraAlterar(contato);
         return this.repository.alterar(contato);
     }
 
     @Override
-    public boolean excluir(Contato contato) throws Exception {
+    public boolean excluir(Contato contato) throws CoreException {
         if (this.contatoExiste(contato)) {
             return this.repository.desativar(contato);
         } else {
@@ -61,7 +62,7 @@ public class ContatoService implements IContatoService {
     }
     
     @Override
-    public boolean excluir(String nome) throws Exception {
+    public boolean excluir(String nome) throws CoreException {
         Contato contato = this.buscarPorNome(nome);
         if(contato != null){
             return excluir(contato);
@@ -70,7 +71,7 @@ public class ContatoService implements IContatoService {
     }
     
     @Override
-    public List<Contato> listarPorNome(final String name) throws Exception {
+    public List<Contato> listarPorNome(final String name) throws CoreException {
         List<Contato> all = this.buscarTodos();
         if (name == null || name.isBlank()) return all;
         
@@ -80,7 +81,7 @@ public class ContatoService implements IContatoService {
     }
     
     @Override
-    public Contato buscarPorNome(final String name) throws Exception {
+    public Contato buscarPorNome(final String name) throws CoreException {
         List<Contato> all = this.buscarTodos();
         if (name == null || name.isBlank()) return null;
         
@@ -91,31 +92,31 @@ public class ContatoService implements IContatoService {
     }
 
     @Override
-    public List<Contato> buscarTodos() throws Exception {
+    public List<Contato> buscarTodos() throws CoreException {
         return this.repository.buscarTodos();
     }
     
     @Override
-    public List<Contato> buscarTodosAtivos() throws Exception {
+    public List<Contato> buscarTodosAtivos() throws CoreException {
         return this.repository.buscarTodos(true);
     }
     
     @Override
-    public List<Contato> buscarTodosInativos() throws Exception {
+    public List<Contato> buscarTodosInativos() throws CoreException {
         return this.repository.buscarTodos(false);
     }
 
     @Override
-    public boolean contatoExiste(Contato contato) throws Exception {
+    public boolean contatoExiste(Contato contato) throws CoreException {
         return this.repository.contatoExiste(contato);
     }
 
     @Override
-    public boolean reativaContato(Contato contato) throws Exception {
+    public boolean reativaContato(Contato contato) throws CoreException {
         return this.repository.reativar(contato);
     }
 
-    private void validate(Contato dto) throws Exception {
+    private void validate(Contato dto) throws CoreException {
         if (dto == null) {
             throw new BusinessException("Contato inválido");
         }
